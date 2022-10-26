@@ -1,23 +1,52 @@
-import logo from './logo.svg';
+
+import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Swapi from './components/Swapi';
+import SwapiDetails from './components/SwapiDetails';
+import SwapidetailsId from './components/SwapidetailsId';
 
 function App() {
+
+
+  const [selectedResource, setSelectedResource] = useState("people");
+    const [selectedId, setSelectedId] = useState("");
+    const [displayError, setDisplayError] = useState(false);
+    const [selectedItem, setSelectedItem] = useState();
+    const [selectedPlanet,setSelectedPlanet] = useState();
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Swapi 
+      selectedResource={selectedResource}
+      setSelectedResource={setSelectedResource} 
+      selectedId={selectedId}
+      setSelectedId={setSelectedId}
+      displayError={displayError}
+      setDisplayError={setDisplayError}
+      selectedItem={selectedItem}
+      setSelectedItem={setSelectedItem}
+      />
+      <Routes>
+        
+        <Route path="/" element={
+          <SwapiDetails 
+          data={selectedItem} 
+          displayError={displayError}
+          />
+        }/>
+          <Route path="/:id" element={
+            <SwapidetailsId
+            data={selectedItem}
+            setSelectedItem={setSelectedItem}
+            displayError={displayError}
+            setDisplayError={setDisplayError}
+            selectedPlanet={selectedPlanet}
+            setSelectedPlanet={setSelectedPlanet}/>
+          }/>
+      </Routes>
+
     </div>
   );
 }
